@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Don't Mess With Cthulhu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ── Join / Create Screen ──────────────────────────────── -->
+  <div id="screen-menu" class="screen active">
+    <div class="menu-container">
+      <h1 class="title">Don't Mess With<br><span class="accent">Cthulhu</span></h1>
+      <p class="subtitle">A game of hidden roles &amp; cosmic horror</p>
+
+      <div class="form-group">
+        <label for="player-name">Your Name</label>
+        <input type="text" id="player-name" maxlength="16" placeholder="Enter your name" autocomplete="off">
+      </div>
+
+      <div class="btn-row">
+        <button id="btn-create" class="btn btn-primary">Create Room</button>
+      </div>
+
+      <div class="divider"><span>or join a room</span></div>
+
+      <div class="form-group">
+        <label for="room-code">Room Code</label>
+        <input type="text" id="room-code" maxlength="4" placeholder="ABCD" autocomplete="off" style="text-transform:uppercase">
+      </div>
+
+      <div class="btn-row">
+        <button id="btn-join" class="btn btn-secondary">Join Room</button>
+      </div>
+
+      <p id="menu-error" class="error"></p>
+    </div>
+  </div>
+
+  <!-- ── Lobby Screen ──────────────────────────────────────── -->
+  <div id="screen-lobby" class="screen">
+    <div class="lobby-container">
+      <h2>Room: <span id="lobby-code" class="accent"></span></h2>
+      <p class="hint">Share this code with friends (5-8 players)</p>
+
+      <div id="lobby-players" class="player-list"></div>
+
+      <div class="btn-row" style="display:flex;gap:12px;justify-content:center">
+        <button id="btn-add-bot" class="btn btn-secondary" style="display:none">Add Bot</button>
+        <button id="btn-start" class="btn btn-primary" style="display:none">Start Game</button>
+      </div>
+      <p id="lobby-status" class="hint"></p>
+    </div>
+  </div>
+
+  <!-- ── Game Screen ───────────────────────────────────────── -->
+  <div id="screen-game" class="screen">
+    <div class="game-header">
+      <div class="game-info">
+        <span id="game-round"></span>
+        <span id="game-actions"></span>
+        <span id="game-signs"></span>
+      </div>
+      <div id="game-role" class="role-badge"></div>
+    </div>
+
+    <!-- Declaration phase -->
+    <div id="phase-declaring" class="phase" style="display:none">
+      <h2>Declaration Phase</h2>
+      <p class="hint">Look at your cards, then declare (you may lie!):</p>
+      <div id="your-hand" class="hand"></div>
+      <div id="declare-form" class="declare-form">
+        <div class="form-group inline">
+          <label>Elder Signs:</label>
+          <select id="declare-elder"></select>
+        </div>
+        <div class="form-group inline">
+          <label>Cthulhu:</label>
+          <select id="declare-cthulhu">
+            <option value="0">0</option>
+            <option value="1">1</option>
+          </select>
+        </div>
+        <button id="btn-declare" class="btn btn-primary">Declare</button>
+      </div>
+      <div id="declarations" class="declarations"></div>
+    </div>
+
+    <!-- Investigation phase -->
+    <div id="phase-investigating" class="phase" style="display:none">
+      <h2>Investigation Phase</h2>
+      <p id="investigate-prompt" class="hint"></p>
+      <div id="player-boards" class="player-boards"></div>
+    </div>
+
+    <!-- Game over -->
+    <div id="phase-gameover" class="phase" style="display:none">
+      <h2 id="gameover-title"></h2>
+      <p id="gameover-role"></p>
+      <div id="gameover-roles" class="role-reveal"></div>
+      <button id="btn-playagain" class="btn btn-primary" style="display:none">Play Again</button>
+    </div>
+
+    <!-- Chat / Log -->
+    <div class="log-panel">
+      <div id="game-log" class="game-log"></div>
+      <div class="chat-input">
+        <input type="text" id="chat-input" placeholder="Say something..." maxlength="500" autocomplete="off">
+        <button id="btn-chat" class="btn btn-small">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
